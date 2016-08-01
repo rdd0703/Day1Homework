@@ -22,9 +22,8 @@ namespace Day1Homework.Controllers
         public ActionResult GridViewAction()
         {
             var models = GetData();
-
-            ViewBag.MyClassModels = models;
-            return View();
+            
+            return View(models);
         }
 
         public ActionResult About()
