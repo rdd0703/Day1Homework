@@ -11,6 +11,13 @@ namespace Day1Homework.Controllers
 {
     public class HomeController : Controller
     {
+        private Model1 db = new Model1();
+        private enum EnumCategory
+        {
+            支出,
+            收入
+        }
+
         public ActionResult Index()
         {
             List<SelectListItem> items = GetSelectList();
@@ -22,7 +29,7 @@ namespace Day1Homework.Controllers
         [ChildActionOnly]
         public ActionResult GridViewAction()
         {
-            var models = GetData();
+            var models = GetDataFromDB();
 
             return View(models);
         }
@@ -45,8 +52,8 @@ namespace Day1Homework.Controllers
         {
             var r = new List<SelectListItem>();
             r.Add(new SelectListItem() { Value = "", Text = "請選擇", Selected = true });
-            r.Add(new SelectListItem() { Value = "1", Text = "支出" });
-            r.Add(new SelectListItem() { Value = "2", Text = "收入" });
+            r.Add(new SelectListItem() { Value = "0", Text = "支出" });
+            r.Add(new SelectListItem() { Value = "1", Text = "收入" });
 
             return r;
         }
@@ -57,6 +64,21 @@ namespace Day1Homework.Controllers
             r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today, Amount = 300 });
             r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(1), Amount = 1600 });
             r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(2), Amount = 800 });
+
+            return r;
+        }
+
+        private List<MyViewModel> GetDataFromDB()
+        {
+            var r = new List<MyViewModel>();
+
+            r = db.AccountBook.Select(d => new MyViewModel
+            {
+                Category = ((EnumCategory)d.Categoryyy).ToString(),
+                Amount = d.Amounttt,
+                Date = d.Dateee,
+                Notes = d.Remarkkk
+            }).ToList();
 
             return r;
         }
