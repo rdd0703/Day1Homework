@@ -1,5 +1,7 @@
 ﻿using Day1Homework.Models;
 using Day1Homework.Models.ViewModels;
+using Day1Homework.Repositories;
+using Day1Homework.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,21 +13,50 @@ namespace Day1Homework.Controllers
 {
     public class HomeController : Controller
     {
-        private Model1 db = new Model1();
+        private readonly AccountBookService _accountBookSvc;
+
+        public HomeController()
+        {
+            var unitOfWork = new EFUnitOfWork();
+            _accountBookSvc = new AccountBookService(unitOfWork);
+        }
 
         public ActionResult Index()
         {
-            List<SelectListItem> items = GetSelectList();
+            BindSelectList();
 
-            ViewBag.CategoryItems = items;
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(MyViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var accountBook = new AccountBook
+                {
+                    Id = Guid.NewGuid(),
+                    Categoryyy = (int)model.Category,
+                    Amounttt = Convert.ToInt32(model.Amount),
+                    Dateee = model.Date,
+                    Remarkkk = model.Notes
+                };
+
+                _accountBookSvc.Create(accountBook);
+                _accountBookSvc.Save();
+                
+            }
+
+            BindSelectList();
+
+            return View();
+        }
 
         [ChildActionOnly]
         public ActionResult GridViewAction()
         {
-            var models = GetDataFromDB();
+            var models = _accountBookSvc.Lookup();
 
             return View(models);
         }
@@ -44,6 +75,12 @@ namespace Day1Homework.Controllers
             return View();
         }
 
+        private void BindSelectList()
+        {
+            List<SelectListItem> items = GetSelectList();
+            ViewBag.CategoryItems = items;
+        }
+
         private List<SelectListItem> GetSelectList()
         {
             var r = new List<SelectListItem>();
@@ -53,30 +90,6 @@ namespace Day1Homework.Controllers
 
             return r;
         }
-
-        //private List<MyViewModel> GetData()
-        //{
-        //    var r = new List<MyViewModel>();
-        //    r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today, Amount = 300 });
-        //    r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(1), Amount = 1600 });
-        //    r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(2), Amount = 800 });
-
-        //    return r;
-        //}
-
-        private List<MyViewModel> GetDataFromDB()
-        {
-            var r = new List<MyViewModel>();
-
-            r = db.AccountBook.Select(d => new MyViewModel
-            {
-                Category = (EnumCategory)d.Categoryyy,
-                Amount = d.Amounttt,
-                Date = d.Dateee,
-                Notes = d.Remarkkk
-            }).ToList();
-
-            return r;
-        }
+        
     }
 }
