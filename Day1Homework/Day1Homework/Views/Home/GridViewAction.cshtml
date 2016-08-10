@@ -12,12 +12,14 @@
                     <th>日期</th>
                     <th>金額</th>
                 </tr>
+                資料筆數：@Model.Count()
                 @{
+
                     int i = 0;
                     foreach (var myClass in Model)
                     {
                         i++;
-                
+
                         <tr>
                             <td>@i</td>
                             <td>@myClass.Category</td>

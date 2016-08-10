@@ -6,10 +6,15 @@ using System.Web;
 
 namespace Day1Homework.Models.ViewModels
 {
+    public enum EnumCategory
+    {
+        支出,
+        收入
+    }
     public class MyViewModel
     {
         [DisplayName("類別")]
-        public string Category { get; set; }
+        public EnumCategory Category { get; set; }
         [DisplayName("金額")]
         public decimal Amount { get; set; }
         [DisplayName("日期")]
