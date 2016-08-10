@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Day1Homework.Models.MyClassModel>
+﻿@model IEnumerable<Day1Homework.Models.ViewModels.MyViewModel>
     @{
         Layout = null;
     }
@@ -13,13 +13,16 @@
                     <th>金額</th>
                 </tr>
                 @{
+                    int i = 0;
                     foreach (var myClass in Model)
                     {
+                        i++;
+                
                         <tr>
-                            <td>@myClass.Sn</td>
+                            <td>@i</td>
                             <td>@myClass.Category</td>
-                            <td>@myClass.Date</td>
-                            <td>@myClass.Amount</td>
+                            <td>@myClass.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@myClass.Amount.ToString("#,#")</td>
                         </tr>
                     }
                 }

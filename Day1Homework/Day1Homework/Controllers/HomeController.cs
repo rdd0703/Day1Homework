@@ -1,4 +1,5 @@
 ﻿using Day1Homework.Models;
+using Day1Homework.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +23,7 @@ namespace Day1Homework.Controllers
         public ActionResult GridViewAction()
         {
             var models = GetData();
-            
+
             return View(models);
         }
 
@@ -50,12 +51,12 @@ namespace Day1Homework.Controllers
             return r;
         }
 
-        private List<MyClassModel> GetData()
+        private List<MyViewModel> GetData()
         {
-            var r = new List<MyClassModel>();
-            r.Add(new MyClassModel() { Sn = "1", Category = "支出", Date = "2016-01-01", Amount = "300" });
-            r.Add(new MyClassModel() { Sn = "2", Category = "支出", Date = "2016-01-02", Amount = "1,600" });
-            r.Add(new MyClassModel() { Sn = "3", Category = "支出", Date = "2016-01-03", Amount = "800" });
+            var r = new List<MyViewModel>();
+            r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today, Amount = 300 });
+            r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(1), Amount = 1600 });
+            r.Add(new MyViewModel() { Category = "支出", Date = DateTime.Today.AddDays(2), Amount = 800 });
 
             return r;
         }
