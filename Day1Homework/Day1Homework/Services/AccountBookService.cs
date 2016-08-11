@@ -10,7 +10,7 @@ namespace Day1Homework.Services
 {
     public class AccountBookService : Repository<AccountBook>
     {
-
+        //Q:請問實務上每一個table都要手動寫一個Service嗎？
         private readonly IRepository<AccountBook> _accountBookRep;
 
         public AccountBookService(IUnitOfWork unitOfWork) : base(unitOfWork)

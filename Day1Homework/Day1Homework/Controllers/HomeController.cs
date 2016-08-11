@@ -47,7 +47,7 @@ namespace Day1Homework.Controllers
                 _accountBookSvc.Save();
                 
             }
-
+            //Q:如果不再Bind一次，前端會收不到資料而報錯，想請問怎麼做會比較好？
             BindSelectList();
 
             return View();
