@@ -14,11 +14,14 @@ namespace Day1Homework.Controllers
     public class HomeController : Controller
     {
         private readonly AccountBookService _accountBookSvc;
+        //Q2:直接宣告Model1
+        //private Model1 db = new Model1();
 
         public HomeController()
         {
             var unitOfWork = new EFUnitOfWork();
             _accountBookSvc = new AccountBookService(unitOfWork);
+            
         }
 
         public ActionResult Index()
@@ -42,7 +45,11 @@ namespace Day1Homework.Controllers
                     Dateee = model.Date,
                     Remarkkk = model.Notes
                 };
-
+                //Q2:這樣寫也是有Transection的效果，為什麼要多包一層Service、Repository…？
+                //   印象中有提到Controller不要直接操作資料庫，這樣算嗎？
+                //db.AccountBook.Add(accountBook);
+                //db.Log.Add(log);
+                //db.SaveChanges();
                 _accountBookSvc.Create(accountBook);
                 _accountBookSvc.Save();
                 
