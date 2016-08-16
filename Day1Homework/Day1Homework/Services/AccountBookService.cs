@@ -27,7 +27,7 @@ namespace Day1Homework.Services
                 Amount = d.Amounttt,
                 Date = d.Dateee,
                 Notes = d.Remarkkk
-            }).ToList();
+            }).OrderByDescending(d => d.Date).ToList();
             return result;
         }
 

@@ -1,33 +1,51 @@
 ﻿@model IEnumerable<Day1Homework.Models.ViewModels.MyViewModel>
-    @{
-        Layout = null;
-    }
+@{
+    Layout = null;
+}
+@using Day1Homework.Helpers;
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>#</th>
+                <th>類別(HTML Helper)</th>
+                <th>練習類別(Razor Helper)</th>
+                <th>日期</th>
+                <th>金額</th>
+            </tr>
+            資料筆數：@Model.Count()
+            @{
 
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-bordered table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>類別</th>
-                    <th>日期</th>
-                    <th>金額</th>
-                </tr>
-                資料筆數：@Model.Count()
-                @{
+                int i = 0;
+                foreach (var myClass in Model)
+                {
+                    i++;
 
-                    int i = 0;
-                    foreach (var myClass in Model)
-                    {
-                        i++;
-
-                        <tr>
-                            <td>@i</td>
-                            <td>@myClass.Category</td>
-                            <td>@myClass.Date.ToString("yyyy-MM-dd")</td>
-                            <td>@myClass.Amount.ToString("#,#")</td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@i</td>
+                        <td>@myClass.CategoryWithColor()</td>@*練習用Html helper*@
+                        <td>@CategoryColumn(@myClass.Category)</td>@*練習用Razor helper*@
+                        <td>@myClass.Date.ToString("yyyy-MM-dd")</td>
+                        <td>@myClass.Amount.ToString("#,#")</td>
+                    </tr>
                 }
-            </table>
-        </div>
+            }
+        </table>
     </div>
+</div>
+
+
+@helper CategoryColumn(Day1Homework.Models.ViewModels.EnumCategory category)
+{
+switch (category)
+{
+    case Day1Homework.Models.ViewModels.EnumCategory.支出:
+            <span class="text-danger">@category</span>
+        break;
+    case Day1Homework.Models.ViewModels.EnumCategory.收入:
+            <span class="text-primary">@category</span>
+        break;
+    default:
+        break;
+}
+}
