@@ -52,12 +52,13 @@ namespace Day1Homework.Controllers
                 //db.SaveChanges();
                 _accountBookSvc.Create(accountBook);
                 _accountBookSvc.Save();
-                
+
+                return RedirectToAction("Index");
             }
             //Q:如果不再Bind一次，前端會收不到資料而報錯，想請問怎麼做會比較好？
-            BindSelectList();
+            //BindSelectList();
 
-            return View();
+            return View(model);
         }
 
         [ChildActionOnly]

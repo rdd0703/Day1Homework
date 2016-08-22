@@ -34,18 +34,19 @@
     </div>
 </div>
 
+@using Day1Homework.Models.ViewModels
+@helper CategoryColumn(EnumCategory category)
+{
+    switch (category)
+    {
+        case EnumCategory.支出:
+                <span class="text-danger">@category</span>
+            break;
+        case EnumCategory.收入:
+                <span class="text-primary">@category</span>
+            break;
+        default:
 
-@helper CategoryColumn(Day1Homework.Models.ViewModels.EnumCategory category)
-{
-switch (category)
-{
-    case Day1Homework.Models.ViewModels.EnumCategory.支出:
-            <span class="text-danger">@category</span>
-        break;
-    case Day1Homework.Models.ViewModels.EnumCategory.收入:
-            <span class="text-primary">@category</span>
-        break;
-    default:
-        break;
-}
+            break;
+    }
 }
