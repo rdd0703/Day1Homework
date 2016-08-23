@@ -14,8 +14,6 @@ namespace Day1Homework.Controllers
     public class HomeController : Controller
     {
         private readonly AccountBookService _accountBookSvc;
-        //Q2:直接宣告Model1
-        //private Model1 db = new Model1();
 
         public HomeController()
         {
@@ -37,27 +35,11 @@ namespace Day1Homework.Controllers
         {
             if (ModelState.IsValid)
             {
-                var accountBook = new AccountBook
-                {
-                    Id = Guid.NewGuid(),
-                    Categoryyy = (int)model.Category,
-                    Amounttt = Convert.ToInt32(model.Amount),
-                    Dateee = model.Date,
-                    Remarkkk = model.Notes
-                };
-                //Q2:這樣寫也是有Transection的效果，為什麼要多包一層Service、Repository…？
-                //   印象中有提到Controller不要直接操作資料庫，這樣算嗎？
-                //db.AccountBook.Add(accountBook);
-                //db.Log.Add(log);
-                //db.SaveChanges();
-                _accountBookSvc.Create(accountBook);
+                _accountBookSvc.Add(model);
                 _accountBookSvc.Save();
 
                 return RedirectToAction("Index");
             }
-            //Q:如果不再Bind一次，前端會收不到資料而報錯，想請問怎麼做會比較好？
-            //BindSelectList();
-
             return View(model);
         }
 
