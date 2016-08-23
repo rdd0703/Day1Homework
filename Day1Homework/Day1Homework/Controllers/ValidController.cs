@@ -17,5 +17,12 @@ namespace Day1Homework.Controllers
 
             return Json(isValidate, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult DateValidation(DateTime date)
+        {
+            bool isValidate = date.Date <= DateTime.Today;
+
+            return Json(isValidate, JsonRequestBehavior.AllowGet);
+        }
     }
 }

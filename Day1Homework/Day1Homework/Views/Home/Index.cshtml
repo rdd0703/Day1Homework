@@ -12,25 +12,29 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Category, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
-                @Html.DropDownList("category", (List<SelectListItem>)ViewBag.CategoryItems, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Category, (List<SelectListItem>)ViewBag.CategoryItems, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Category)
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
                 @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @placeholder = "金額" } })
+                @Html.ValidationMessageFor(model => model.Amount)
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Date, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
                 @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @placeholder = "日期" } })
+                @Html.ValidationMessageFor(model => model.Date)
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Notes, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
-                @Html.TextArea("Notes", new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Notes, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Notes)
             </div>
         </div>
         <div class="form-group">
@@ -42,3 +46,7 @@
 }
 
 @Html.Action("GridViewAction")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
