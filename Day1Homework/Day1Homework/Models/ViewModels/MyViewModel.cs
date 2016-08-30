@@ -20,8 +20,8 @@ namespace Day1Homework.Models.ViewModels
         public EnumCategory Category { get; set; }
 
         [DisplayName("金額")]
-        [Range(0, (double)decimal.MaxValue,ErrorMessage ="{0} 必須大於 {1}")]
-        public decimal Amount { get; set; }
+        [Range(0,int.MaxValue,ErrorMessage ="{0} 必須大於 {1}")]
+        public int Amount { get; set; }
 
         [DisplayName("日期")]
         [Remote("DateValidation", "Valid", ErrorMessage = "{0} 不得大於今天")]
