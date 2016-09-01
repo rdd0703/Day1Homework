@@ -21,9 +21,13 @@ namespace Day1Homework.Areas.Admin.Controllers
         }
 
         // GET: Admin/Home
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(_accountBookSvc.LookupAll());
+            //分頁套件： Install-Package PagedList.Mvc 
+            ViewData["pageIndex"] = page.HasValue ? page.Value < 1 ? 1 : page.Value : 1;
+            ViewData["pageSize"] = 10;
+
+            return View(_accountBookSvc.ToPagedList((int)ViewData["pageIndex"], (int)ViewData["pageSize"]));
         }
 
         // GET: Admin/Home/Edit/5

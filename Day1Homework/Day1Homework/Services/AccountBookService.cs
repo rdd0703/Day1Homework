@@ -1,6 +1,7 @@
 ﻿using Day1Homework.Models;
 using Day1Homework.Models.ViewModels;
 using Day1Homework.Repositories;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,11 @@ namespace Day1Homework.Services
                 Notes = d.Remarkkk
             }).OrderByDescending(d => d.Date).ToList();
             return result;
+        }
+
+        public IEnumerable<MyViewModel> ToPagedList(int pageIndex, int pageSize)
+        {
+            return LookupAll().ToPagedList(pageIndex, pageSize);
         }
 
         public void Edit(MyViewModel pageData)

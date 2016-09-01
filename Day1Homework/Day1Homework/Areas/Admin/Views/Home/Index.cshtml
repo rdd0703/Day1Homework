@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Day1Homework.Models.ViewModels.MyViewModel>
-
+@using PagedList
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
 }
@@ -26,7 +27,7 @@
         <th></th>
     </tr>
     @{
-        int i = 0;
+        int i = ((int)ViewData["pageIndex"] - 1) * (int)ViewData["pageSize"];
         foreach (var item in Model)
         {
             i++;
@@ -42,3 +43,10 @@
         }
     }
 </table>
+<nav>
+    @Html.PagedListPager((IPagedList)Model, d => Url.Action("index", new
+           {
+               page = d
+           }))
+
+</nav>
