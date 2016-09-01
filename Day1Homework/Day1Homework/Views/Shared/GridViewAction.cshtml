@@ -3,6 +3,8 @@
     Layout = null;
 }
 @using Day1Homework.Helpers;
+@using PagedList
+@using PagedList.Mvc
 <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered table-hover">
@@ -13,10 +15,10 @@
                 <th>日期</th>
                 <th>金額</th>
             </tr>
-            資料筆數：@Model.Count()
+            @*資料筆數：@Model.Count()*@
             @{
 
-                int i = 0;
+                int i = ((int)ViewData["pageIndex"] - 1) * (int)ViewData["pageSize"];
                 foreach (var myClass in Model)
                 {
                     i++;
@@ -31,6 +33,15 @@
                 }
             }
         </table>
+
+        <nav>
+            @Html.PagedListPager((IPagedList)Model, d => Url.Action("index", new
+{
+    page = d
+}))
+
+        </nav>
+
     </div>
 </div>
 

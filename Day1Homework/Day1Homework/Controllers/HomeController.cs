@@ -44,11 +44,13 @@ namespace Day1Homework.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult GridViewAction()
+        public ActionResult GridViewAction(int? page)
         {
-            var models = _accountBookSvc.LookupAll();
+            //分頁套件： Install-Package PagedList.Mvc 
+            ViewData["pageIndex"] = page.HasValue ? page.Value < 1 ? 1 : page.Value : 1;
+            ViewData["pageSize"] = 10;
 
-            return View(models);
+            return View(_accountBookSvc.ToPagedList((int)ViewData["pageIndex"], (int)ViewData["pageSize"]));
         }
 
         public ActionResult About()
