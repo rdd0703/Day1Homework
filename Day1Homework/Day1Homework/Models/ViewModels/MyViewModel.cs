@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Day1Homework.Filters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -15,16 +16,17 @@ namespace Day1Homework.Models.ViewModels
     }
     public class MyViewModel
     {
+        public Guid id { get; set; }
         [DisplayName("類別")]
         [Required]
         public EnumCategory Category { get; set; }
 
         [DisplayName("金額")]
-        [Range(0,int.MaxValue,ErrorMessage ="{0} 必須大於 {1}")]
+        [Range(0, int.MaxValue, ErrorMessage = "{0} 必須大於 {1}")]
         public int Amount { get; set; }
 
         [DisplayName("日期")]
-        [Remote("DateValidation", "Valid", ErrorMessage = "{0} 不得大於今天")]
+        [RemotePlus("DateValidation", "Valid", "", ErrorMessage = "{0} 不得大於今天")]
         public DateTime Date { get; set; }
 
         [Required]

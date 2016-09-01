@@ -18,17 +18,45 @@ namespace Day1Homework.Services
             _accountBookRep = new Repository<AccountBook>(unitOfWork);
         }
 
-        public IEnumerable<MyViewModel> Lookup()
+        public MyViewModel GetSingle(Guid id)
+        {
+            var accountBook = _accountBookRep.GetSingle(d => d.Id == id);
+            var model = new MyViewModel()
+            {
+                id = accountBook.Id,
+                Category = (EnumCategory)accountBook.Categoryyy,
+                Amount = accountBook.Amounttt,
+                Date = accountBook.Dateee,
+                Notes = accountBook.Remarkkk
+            };
+
+            return model;
+        }
+
+        public IEnumerable<MyViewModel> LookupAll()
         {
             var source = _accountBookRep.LookupAll();
             var result = source.Select(d => new MyViewModel()
             {
+                id = d.Id,
                 Category = (EnumCategory)d.Categoryyy,
                 Amount = d.Amounttt,
                 Date = d.Dateee,
                 Notes = d.Remarkkk
             }).OrderByDescending(d => d.Date).ToList();
             return result;
+        }
+
+        public void Edit(MyViewModel pageData)
+        {
+            var oldData = _accountBookRep.GetSingle(d => d.Id == pageData.id);
+            if (oldData != null)
+            {
+                oldData.Categoryyy = (int)pageData.Category;
+                oldData.Amounttt = pageData.Amount;
+                oldData.Dateee = pageData.Date;
+                oldData.Remarkkk = pageData.Notes;
+            }
         }
 
         public void Add(MyViewModel vm)

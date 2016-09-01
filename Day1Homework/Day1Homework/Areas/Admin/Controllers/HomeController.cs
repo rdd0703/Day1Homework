@@ -1,15 +1,13 @@
-﻿using Day1Homework.Models;
-using Day1Homework.Models.ViewModels;
+﻿using Day1Homework.Models.ViewModels;
 using Day1Homework.Repositories;
 using Day1Homework.Services;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Day1Homework.Controllers
+namespace Day1Homework.Areas.Admin.Controllers
 {
     public class HomeController : Controller
     {
@@ -19,50 +17,36 @@ namespace Day1Homework.Controllers
         {
             var unitOfWork = new EFUnitOfWork();
             _accountBookSvc = new AccountBookService(unitOfWork);
-            
+
         }
 
+        // GET: Admin/Home
         public ActionResult Index()
         {
-            BindSelectList();
-
-            return View();
+            return View(_accountBookSvc.LookupAll());
         }
 
+        // GET: Admin/Home/Edit/5
+        public ActionResult Edit(Guid id)
+        {
+            BindSelectList();
+            return View(_accountBookSvc.GetSingle(id));
+        }
+
+        // POST: Admin/Home/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(MyViewModel model)
+        public ActionResult Edit([Bind(Include = "id,Category,Amount,Notes,Date")]MyViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _accountBookSvc.Add(model);
-                _accountBookSvc.Save();
 
+                _accountBookSvc.Edit(model);
+                _accountBookSvc.Save();
                 return RedirectToAction("Index");
+
             }
             return View(model);
-        }
-
-        [ChildActionOnly]
-        public ActionResult GridViewAction()
-        {
-            var models = _accountBookSvc.LookupAll();
-
-            return View(models);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         private void BindSelectList()
@@ -80,6 +64,5 @@ namespace Day1Homework.Controllers
 
             return r;
         }
-        
     }
 }

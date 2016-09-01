@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Day1Homework.Models.ViewModels.MyViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+    @{
+        int i = 0;
+        foreach (var item in Model)
+        {
+            i++;
+            <tr>
+                <td>@i</td>
+                <td>@item.Category</td>
+                <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                <td>@item.Amount.ToString("#,#")</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                </td>
+            </tr>
+        }
+    }
+</table>

@@ -31,7 +31,7 @@ namespace Day1Homework.Controllers
         [ChildActionOnly]
         public ActionResult GridViewAction()
         {
-            var models = _accountBookSvc.Lookup();
+            var models = _accountBookSvc.LookupAll();
 
             return View(models);
         }
@@ -55,7 +55,7 @@ namespace Day1Homework.Controllers
             }
             BindSelectList();
 
-            var models = _accountBookSvc.Lookup();
+            var models = _accountBookSvc.LookupAll();
 
             return View(models);
         }
