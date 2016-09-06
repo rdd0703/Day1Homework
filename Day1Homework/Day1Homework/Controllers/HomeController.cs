@@ -2,6 +2,7 @@
 using Day1Homework.Models.ViewModels;
 using Day1Homework.Repositories;
 using Day1Homework.Services;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,7 +20,7 @@ namespace Day1Homework.Controllers
         {
             var unitOfWork = new EFUnitOfWork();
             _accountBookSvc = new AccountBookService(unitOfWork);
-            
+
         }
 
         public ActionResult Index()
@@ -44,13 +45,20 @@ namespace Day1Homework.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult GridViewAction(int? page)
+        public ActionResult GridViewAction(int? year, int? month, int? page)
         {
             //分頁套件： Install-Package PagedList.Mvc 
             ViewData["pageIndex"] = page.HasValue ? page.Value < 1 ? 1 : page.Value : 1;
             ViewData["pageSize"] = 10;
 
-            return View(_accountBookSvc.ToPagedList((int)ViewData["pageIndex"], (int)ViewData["pageSize"]));
+            var pageData = _accountBookSvc.LookupAll();
+
+            if (year.HasValue && month.HasValue)
+                pageData = pageData.Where(d => d.Date.Year == year && d.Date.Month == month);
+            
+            pageData = pageData.ToPagedList((int)ViewData["pageIndex"], (int)ViewData["pageSize"]);
+
+            return View(pageData);
         }
 
         public ActionResult About()
@@ -82,6 +90,6 @@ namespace Day1Homework.Controllers
 
             return r;
         }
-        
+
     }
 }
